@@ -30,14 +30,3 @@ Comunicação IPC: Unix Domain Sockets.
 Segurança: Bubblewrap (Linux sandboxing).
 
 Frontend: HTML5, CSS3 (Modern Flexbox/Grid), Vanilla JavaScript.
-
-Estrutura do Projeto (Snippet para o README)
-Plaintext
-├── server.js           # Servidor principal (Orquestrador)
-├── chatConnect.js      # Lógica de cada sala (Instanciado por sala)
-├── database.db         # DB SQLite de utilizadores
-├── web/                # Ficheiros estáticos
-│   ├── index.html      # Login e Chat UI
-│   ├── css/            # Temas (Day, Night, Floribela)
-│   └── js/             # Lógica de cliente
-└── logs/               # Logs gerados pelas instâncias bwrap
