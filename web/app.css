@@ -86,21 +86,18 @@ input:focus {
   top: 12px;
   left: 50%;
   transform: translateX(-50%);
-  width: min(1100px, 96vw);
-  height: 120px; /* Altura base quando fechado */
-  min-height: 100px;
+  width: min(1200px, 96vw); /* Ajustado para caber o split */
+  height: 120px;
   background: var(--menuBg);
   border-radius: var(--radius);
   border: 1px solid var(--glass-border);
   backdrop-filter: blur(20px);
   z-index: 100;
-  padding: 0 25px; /* Removemos o padding top daqui para controlar nas colunas */
+  padding: 0 25px;
   display: grid;
-  grid-template-columns: 140px 1fr auto;
-  align-items: start; /* Mantém o topo fixo ao expandir */
+  grid-template-columns: 140px 1fr auto; /* O 1fr no meio é para o split */
+  align-items: center;
   gap: 20px;
-  transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1), max-height 0.4s ease;
-  overflow: hidden;
 }
 
 .top-menu:hover {
@@ -112,6 +109,36 @@ input:focus {
 .top-menu::-webkit-scrollbar-thumb {
   background: var(--accent);
   border-radius: 10px;
+}
+
+.split-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  flex: 1;
+}
+
+.chat-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 240px; 
+}
+
+.column-label {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--muted);
+  letter-spacing: 1.5px;
+  margin-bottom: 8px;
+}
+
+.vertical-divider {
+  width: 1px;
+  height: 45px;
+  background: var(--glass-border);
 }
 
 .logo-badge {
@@ -127,11 +154,9 @@ input:focus {
 
 .icon-strip {
   display: grid;
-  grid-template-columns: repeat(3, 70px);
-  gap: 15px;
-  padding-top: 0; /* Removemos o padding exagerado anterior */
+  grid-template-columns: repeat(3, 70px); /* Bloqueia em 3 slots */
+  gap: 12px;
   margin: 0;
-  align-items: start;
 }
 
 .icon {
@@ -220,6 +245,31 @@ dialog::backdrop {
   display: flex;
   flex-direction: column;
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* Estilo para o select */
+.dlg-card select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    background: rgba(0, 0, 0, 0.2);
+    color: white;
+    border: 1px solid #333;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    cursor: pointer;
+    appearance: none; /* Remove a seta padrão do sistema */
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='white' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+}
+
+/* Efeito ao focar no campo */
+.dlg-card select:focus {
+    border-color: #10b981; /* Cor verde que usas nos botões */
+    box-shadow: 0 0 5px rgba(16, 185, 129, 0.3);
 }
 
 .dlg-actions {
@@ -631,3 +681,153 @@ dialog::backdrop {
  }
 }
 
+.dual-modal {
+  display: flex;
+  flex-direction: row !important;
+  gap: 30px;
+  width: min(850px, 95vw) !important;
+  position: relative;
+}
+
+.modal-side { flex: 1; display: flex; flex-direction: column; }
+
+.modal-divider {
+  width: 1px;
+  background: var(--glass-border);
+  margin: 20px 0;
+}
+
+.search-wrapper { position: relative; width: 100%; }
+
+.search-results {
+  position: absolute;
+  top: 100%; left: 0; right: 0;
+  background: var(--bg);
+  border: 1px solid var(--accent);
+  border-radius: 12px;
+  max-height: 150px;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+#usResults {
+    background: var(--card);
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    position: absolute;
+    width: 100%;
+    z-index: 999; /* Garante que fica por cima de tudo */
+    max-height: 150px;
+    overflow-y: auto;
+    display: none; /* Controlado pelo JS */
+}
+
+.search-item {
+    padding: 10px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.search-item:hover {
+    background: var(--accent);
+    color: white;
+}
+
+textarea {
+  width: 100%;
+  background: rgba(0,0,0,0.2);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  color: var(--fg);
+  padding: 10px;
+  margin-bottom: 15px;
+  resize: none;
+}
+
+.btn-close-modal {
+  position: absolute;
+  top: 15px; right: 15px;
+  background: none; border: none;
+  color: var(--muted); font-size: 24px; cursor: pointer;
+}
+
+.hidden { display: none; }
+
+.profile-container { 
+  position: relative; 
+}
+.circle-avatar {
+    width: 45px;
+    height: 45px;
+    background: var(--accent);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.circle-avatar:hover { transform: scale(1.1); }
+
+.dropdown-content {
+  position: absolute;
+  right: 0;
+  top: 50px; /* Distância do círculo */
+  background: #1f2937;
+  border: 1px solid #374151;
+  border-radius: 8px;
+  min-width: 160px;
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+}
+
+.dropdown-content button {
+    background: none; border: none; color: white;
+    padding: 8px; text-align: left; cursor: pointer;
+    width: 100%; border-radius: 4px;
+}
+
+.dropdown-content button:hover { background: #374151; }
+.hidden { display: none !important; }
+
+#roomsList, #usersList {
+    max-height: 180px; /* Altura para ~3 itens */
+    overflow-y: auto;  /* Scroll interno */
+    overflow-x: hidden;
+}
+
+.user-profile-fixed {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999; /* Garante que fica à frente de tudo */
+}
+
+/* Garante que o modal mantém as duas colunas */
+.dual-modal {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    min-width: 600px;
+}
+
+.modal-side {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espaço entre campos */
+}
+
+/* Garante que o select e o input ocupam a largura total da coluna */
+.modal-side input, 
+.modal-side select, 
+.modal-side textarea {
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 5px;
+}

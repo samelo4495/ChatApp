@@ -6,31 +6,46 @@
  <title>Chat</title>
  <link rel="stylesheet" href="/web/app.css"/>
 </head>
-<body class="theme-day">
+<body class="theme-night">
   
+<div class="user-profile-fixed">
+    <div class="profile-container">
+        <div id="userCircle" class="circle-avatar">A</div>
+        <div id="userDropdown" class="dropdown-content hidden">
+            <button id="btnSettings">Configurações</button>
+            <button id="btnLogout">Sair</button>
+        </div>
+    </div>
+</div>
+
 <div id="topMenu" class="top-menu">
  
   <div class="logo-group">
-
     <div class="logo-badge">💬</div>
-    <div class="logo-text"> ChatApp</div>
+    <div class="logo-text">ChatApp</div>
   </div>
 
   <div class="menu-group rooms">
-    <div class="group-head">
-      <div class="group-title">Chats</div>
-    </div>
-    <div id="roomsList" class="icon-strip">
+    <div class="split-container">
+      <div class="chat-column">
+        <div class="column-label">Chats</div>
+        <div id="roomsList" class="icon-strip"></div>
       </div>
-  </div>
+
+      <div class="vertical-divider"></div>
+
+      <div class="chat-column">
+        <div class="column-label">Utilizadores</div>
+        <div id="usersList" class="icon-strip"></div>
+      </div>
+    </div>
+  </div> 
 
   <div class="menu-group actions">
     <button id="btnNewRoom" class="chip">Novo Chat</button>
-    <button id="btnTheme" class="chip">Tema</button>
-    <button id="btnSettings" class="chip">Config</button>
-    <button id="btnLogout" class="chip danger">Sair</button>
-    
   </div>
+</div>
+
 </div>
  <div class="content">
    <div class="chat-area" class="chat-area hidden">
@@ -42,17 +57,49 @@
    </div>
  </div>
 
- <dialog id="dlgNewRoom" class="dlg">
-  <div class="dlg-card">
-    <h2>Novo Chat</h2>
-    <label>Nome</label><input id="nrName" placeholder="ex: Suporte"/>
-    <label>Protocolo</label><input id="nrProto" placeholder="ex: ficticio-v2"/>
-    <div class="dlg-actions">
-      <button id="nrCreate" class="primary">Criar</button>
-      <button value="cancel" class="secondary" onclick="this.closest('dialog').close()">Cancelar</button>
-    </div>
+<dialog id="dlgNewRoom" class="dlg">
+  <div class="dlg-card dual-modal">
+    <div class="modal-side">
+  <h2>Novo Chat</h2>
+  
+  <div class="field-group">
+    <label>Nome do Chat</label>
+    <input id="nrName" placeholder="ex: League of Legends"/>
   </div>
- </dialog>
+
+  <div class="field-group">
+    <label>Protocolo</label>
+    <select id="nrProto">
+        <option value="ia">Sistema Isolado (bwrap)</option>
+    </select>
+  </div>
+  
+  <button id="nrCreate" class="primary">Criar Chat</button>
+</div>
+
+    <div class="modal-divider"></div>
+
+    <div class="modal-side">
+      <h2>Nova Conversa</h2>
+      <div class="form-group">
+        <label>Utilizador</label>
+        <div class="search-wrapper">
+          <input id="usSearch" placeholder="Nome ou Email..."/>
+          <div id="usResults" class="search-results hidden"></div>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label>Mensagem</label>
+        <textarea id="usMsg" placeholder="Insira a mensagem..." rows="3"></textarea>
+      </div>
+      
+      <button id="usSend" class="primary">Enviar</button>
+    </div>
+
+    <button class="btn-close-modal" onclick="this.closest('dialog').close()">&times;</button>
+  </div>
+</dialog>
 
  <dialog id="dlgSettings" class="dlg">
    <div class="dlg-card">
@@ -73,8 +120,8 @@
    </div>
  </dialog>
 <div class="theme-switchers">
-    <button class="theme-btn" onclick="document.body.className='theme-night'" title="Modo Noite">☀️</button>
-    <button class="theme-btn" onclick="document.body.className='theme-day'" title="Modo Dia">🌕</button>
+    <button class="theme-btn" onclick="document.body.className='theme-night'" title="Modo Noite">🌕</button>
+    <button class="theme-btn" onclick="document.body.className='theme-day'" title="Modo Dia">☀️</button>
     <button class="theme-btn" onclick="document.body.className='theme-floribela'" title="Modo Sakura">🌸</button>
 </div>
  <script src="/web/app.js"></script>
