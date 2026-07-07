@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="pt">
+<head>
+ <meta charset="utf-8"/>
+ <meta name="viewport" content="width=device-width, initial-scale=1"/>
+ <title>Login</title>
+ <link rel="stylesheet" href="/web/app.css"/>
+</head>
+<body class="theme-night">
+  <div class="background-animation">
+   <div class="blob"></div>
+   <div class="blob"></div>
+   <div class="blob"></div>
+  </div>
+
+ <div class="page-center">
+   <div class="card">
+     <h1>Login</h1>
+
+     <label>Email</label>
+     <input id="email" type="email" placeholder="Email"/>
+
+     <label>Password</label>
+     <input id="password" type="password" placeholder="password"/>
+
+     <button id="btnLogin" class="primary">Login</button>
+     <div id="err" class="error"></div>
+
+     <div class="muted tiny">Default: admin@local / admin</div>
+   </div>
+ </div>
+
+  <div class="theme-switchers">
+    <button class="theme-btn" onclick="setTheme(0)" title="Dia">☀️</button>
+    <button class="theme-btn" onclick="setTheme(1)" title="Noite">🌙</button>
+    <button class="theme-btn" onclick="setTheme(2)" title="Floribela">🌸</button>
+  </div>
+
+ <script>
+   // --- Sistema de temas ---
+   const THEMES = ["theme-day", "theme-night", "theme-floribela"];
+
+   function setTheme(idx) {
+     document.body.classList.remove(...THEMES);
+     document.body.classList.add(THEMES[idx]);
+     localStorage.setItem("selected-theme", idx);
+   }
+
+   let savedTheme = parseInt(localStorage.getItem("selected-theme"), 10);
+   if (isNaN(savedTheme)) savedTheme = 1;
+   setTheme(savedTheme);
+
+   // --- Login ---
+   function goChat() {
+     location.href = "/web/chat.html";
+   }
+
+   // se já tiver sessão, salta o login
+   (async () => {
+     try {
+       const r = await fetch("/api/me");
+       if (r.ok) goChat();
+     } catch (e) { /* servidor offline, fica no login */ }
+   })();
+
+   async function doLogin() {
+     const email = document.getElementById("email").value.trim();
+     const password = document.getElementById("password").value;
+     const err = document.getElementById("err");
+     err.textContent = "";
+
+     const r = await fetch("/auth/login", {
+       method: "POST",
+       headers: {"Content-Type":"application/json"},
+       body: JSON.stringify({ email, password })
+     });
+     const j = await r.json().catch(() => ({}));
+     if (!r.ok) {
+       err.textContent = j.error || "Erro no login";
+       return;
+     }
+     goChat();
+   }
+
+   document.getElementById("btnLogin").onclick = doLogin;
+   document.getElementById("password").addEventListener("keydown", (e) => {
+     if (e.key === "Enter") doLogin();
+   });
+ </script>
+</body>
+</html>
